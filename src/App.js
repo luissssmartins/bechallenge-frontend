@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import TaskForm from './components/task/form/TaskForm';
+import TaskList from './components/task/list/TaskList';
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (taskName) => {
+    setTasks([...tasks, taskName]);
+  };
+
+  const handleEdit = (index) => {
+    const updatedTask = prompt('Editar tarefa:', tasks[index]);
+    if (updatedTask !== null && updatedTask.trim() !== '') {
+      const updatedTasks = [...tasks];
+      updatedTasks[index] = updatedTask;
+      setTasks(updatedTasks);
+    }
+  };
+
+  const handleDelete = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Lista de Tarefas</h1>
+      <TaskForm addTask={addTask} />
+      <TaskList tasks={tasks} handleEdit={handleEdit} handleDelete={handleDelete} />
     </div>
   );
 }
