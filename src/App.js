@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 import TaskForm from './components/task/form/TaskForm';
 import TaskList from './components/task/list/TaskList';
 
@@ -21,8 +23,16 @@ function App() {
   };
 
   const handleDelete = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+    const taskId = tasks[index].id;
+
+    axios.delete(`http://192.168.1.214:8000/api/tasks/${taskId}/`)
+      .then(() => {
+        const updatedTasks = tasks.filter((_, i) => i !== index);
+        setTasks(updatedTasks);
+      })
+      .catch((error) => {
+        console.error('Erro ao excluir a tarefa:', error);
+      });
   };
 
   return (
