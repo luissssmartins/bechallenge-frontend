@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import './style/style.css';
 
@@ -9,9 +10,19 @@ const TaskForm = ({ addTask }) => {
     e.preventDefault();
 
     if (taskName.trim() === '') return;
+    axios.post('http://127.0.0.1:8000/api/tasks/', { name: taskName }).then((response) => {
+
+      addTask(response.data);
+      setTaskName('');
+
+    }).catch((error) => {
+        console.error('Erro ao adicionar a tarefa:', error);
+    });
+
 
     addTask(taskName);
     setTaskName('');
+
   };
 
   return (
@@ -24,7 +35,7 @@ const TaskForm = ({ addTask }) => {
         placeholder="Nome da tarefa"
       />
 
-      <button class="enviar" type="submit">Adicionar</button>
+      <button className="enviar" type="submit">Adicionar</button>
 
     </form>
   );
