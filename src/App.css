@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins";
   background-image: url('./components/background/background.jpg');
   margin: 0;
   padding: 0;
@@ -42,6 +44,22 @@ li {
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
+}
+
+@media (max-width: 600px) {
+  .container {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  input,
+  button {
+    margin: 5px 0;
+  }
 }
 
 
