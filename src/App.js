@@ -25,7 +25,7 @@ function App() {
   const handleDelete = (index) => {
     const taskId = tasks[index].id;
 
-    axios.delete(`http://192.168.1.214:8000/api/tasks/${taskId}/`)
+    axios.delete(`http://127.0.0.1:8000/api/tasks/${taskId}/`)
       .then(() => {
         const updatedTasks = tasks.filter((_, i) => i !== index);
         setTasks(updatedTasks);
