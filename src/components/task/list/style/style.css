@@ -1,0 +1,13 @@
+button.excluir {
+    background-color: red;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button.editar {
+    background-color: blue;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
