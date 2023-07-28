@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TaskForm from './components/task/form/TaskForm';
 import TaskList from './components/task/list/TaskList';
 
+import './App.css';
+
 function App() {
   const [tasks, setTasks] = useState([]);
 
@@ -25,9 +27,11 @@ function App() {
 
   return (
     <div>
-      <h1>Lista de Tarefas</h1>
+      <h1>Controle de tarefas</h1>
+
       <TaskForm addTask={addTask} />
       <TaskList tasks={tasks} handleEdit={handleEdit} handleDelete={handleDelete} />
+
     </div>
   );
 }
