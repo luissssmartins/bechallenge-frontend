@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import TaskForm from './components/task/form/TaskForm';
@@ -9,30 +9,37 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
 
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
+
+      setTasks(response.data)
+
+    } catch (error) {
+      console.error('Erro ao buscar tarefas:', error);
+    }
+  }
+
   const addTask = (taskName) => {
     setTasks([...tasks, taskName]);
   };
 
-  const handleEdit = (index) => {
-    const updatedTask = prompt('Editar tarefa:', tasks[index]);
-    if (updatedTask !== null && updatedTask.trim() !== '') {
-      const updatedTasks = [...tasks];
-      updatedTasks[index] = updatedTask;
-      setTasks(updatedTasks);
-    }
+  const handleEdit = (index, newTask) => {
+    const updatedTasks = tasks.map((tasks) =>
+      tasks.id === index? { ...tasks, name: newTask } : tasks
+    );
+
+    setTasks(updatedTasks);
   };
 
   const handleDelete = (index) => {
-    const taskId = tasks[index].id;
+    const updatedTasks = tasks.filter((tasks) => tasks.id !== index);
 
-    axios.delete(`http://192.168.1.214:8000/api/tasks/${taskId}/`)
-      .then(() => {
-        const updatedTasks = tasks.filter((_, i) => i !== index);
-        setTasks(updatedTasks);
-      })
-      .catch((error) => {
-        console.error('Erro ao excluir a tarefa:', error);
-      });
+    setTasks(updatedTasks);
   };
 
   return (
