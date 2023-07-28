@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Desafio Web (React JS + Django)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este desafio foi proposto pela beAnalytic, consiste em basicamente criar uma lista de tarefas, onde será possível cadastrar, alterar, deletar e listar as tarefas criadas.
 
-## Available Scripts
+## Frontend
 
-In the project directory, you can run:
+No front-end, foi utilizando React JS, uma popular framework de JavaScript.
 
-### `npm start`
+O front-end é relativamente simples, ao iniciar o projeto, existirá um box para que a tarefa seja escrita e um botão logo ao lado para que a tarefa seja adicionada. Assim que iniciar, o sistema solicitará para o endpoint `/api/tasks/`, as tarefas registradas, caso não exista, nenhuma tarefa será adicionada a tela do usuário.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+O botão de adicionar, cadastrá a tarefa com seu conteúdo e enviará para o endpoint `/api/tasks/`, a tarefa cadastrada.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Na tela do usuário, após houver uma ou mais tarefas cadastradas, os botões "editar" e "excluir", estarão respectivamente disponíveis.
 
-### `npm test`
+O botão de editar, será responsável por alterar a tarefa do usuário, sendo assim, será possível reescrever a tarefa designada. Após a alteração, será enviado para o endpoint `/api/tasks/<task_id>/`, contendo o ID da tarefa alterada o seu novo conteúdo.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+O botão excluir, será responsável por deletar e remover do banco de dados a tarefa escolhida pelo usuário, portanto, será enviado para o endpoint `/api/tasks/<task_id>/`, o ID da tarefa removida pelo usuário.
 
-### `npm run build`
+## Backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+No back-end, a tecnologia utilizada será Django, uma framework, altamente escalável e robusta.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Nos campos disponíveis, conterá as seguintes informações:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* ID (Primary key)
 
-### `npm run eject`
+Responsável por definir o ID único de cada tarefa.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Description (Text ou Varchar)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Responsável por armazenar o contéudo da tarefa por inteiro.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Status (Boolean)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Responsável por definir se a tarefa está ativa ou não.
 
-## Learn More
+OBS: Data de criação e alteração são adicionados automaticamente pelo Django.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Compilando o frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Para compilar o front-end, de início, será necessário instalar os pacotes necessários, utilizando o comando abaixo:
 
-### Code Splitting
+`npm install`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Logo após, ter instalado os pacotes, basta rodar o seguinte comando para "buildar" o projeto:
 
-### Analyzing the Bundle Size
+`npm run build`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Agora, basta subir o projeto em uma instância utilizando Nginx ou PHP.
