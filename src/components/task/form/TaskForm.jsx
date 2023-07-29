@@ -3,26 +3,33 @@ import axios from 'axios';
 
 import './style/style.css';
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
 
-    if (taskName.trim() === '') return;
-    axios.post('http://127.0.0.1:8000/api/tasks/', { name: taskName }).then((response) => {
+    if (taskName.trim() === '') {
+      alert('Por favor, insira o nome da tarefa!')
+      return;
+    }
 
-      addTask(response.data);
-      setTaskName('');
+    try {
 
-    }).catch((error) => {
-        console.error('Erro ao adicionar a tarefa:', error);
-    });
+      const response = await axios.post('http://127.0.0.1:8000/api/tasks/', {
+        name: taskName,
+        description: '',
+        status: 'para fazer',
+      });
 
+      onAddTask(response.data)
 
-    addTask(taskName);
-    setTaskName('');
+      setTaskName('')
 
+    } catch (error) {
+      console.error('Erro ao adicionar tarefa: ', error)
+    }
   };
 
   return (

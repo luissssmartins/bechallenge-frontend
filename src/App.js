@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import TaskForm from './components/task/form/TaskForm';
@@ -9,39 +9,69 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const addTask = (taskName) => {
-    setTasks([...tasks, taskName]);
-  };
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
-  const handleEdit = (index) => {
-    const updatedTask = prompt('Editar tarefa:', tasks[index]);
-    if (updatedTask !== null && updatedTask.trim() !== '') {
-      const updatedTasks = [...tasks];
-      updatedTasks[index] = updatedTask;
-      setTasks(updatedTasks);
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
+
+      setTasks(response.data)
+
+    } catch (error) {
+      console.error('Erro ao buscar tarefas:', error);
     }
+
   };
 
-  const handleDelete = (index) => {
-    const taskId = tasks[index].id;
+  const handleAddTask = (newTask) => {
+    setTasks([...tasks, newTask]);
+  }
 
-    axios.delete(`http://127.0.0.1:8000/api/tasks/${taskId}/`)
-      .then(() => {
-        const updatedTasks = tasks.filter((_, i) => i !== index);
-        setTasks(updatedTasks);
-      })
-      .catch((error) => {
-        console.error('Erro ao excluir a tarefa:', error);
+  const handleEditTask = async (index, newName) => {
+
+    try {
+      
+      await axios.put(`http://127.0.0.1:8000/api/tasks/${index}`, {
+        name: newName,
       });
+
+      const updatedTasks = tasks.map((task) =>
+        task.id === index ? {...task, name: newName } : task
+      );
+      
+      setTasks(updatedTasks);
+    
+    } catch (error) {
+
+      console.error('Erro ao editar tarefa: ', error);
+    }
+
+  };
+
+  const handleDeleteTask = (index) => {
+    const updatedTasks = tasks.filter((task) => task.id !== index);
+    
+    setTasks(updatedTasks);
   };
 
   return (
     <div>
       <h1>Controle de tarefas</h1>
 
-      <TaskForm addTask={addTask} />
-      <TaskList tasks={tasks} handleEdit={handleEdit} handleDelete={handleDelete} />
+      <TaskForm onAddTask={handleAddTask} />
 
+      {tasks.length > 0 ? (
+        <TaskList
+          tasks={tasks}
+          onEditTask={handleEditTask}
+          onDeleteTask={handleDeleteTask}
+        />
+      ) : (
+        <p>Não há tarefas cadastradas no momento.</p>
+      )}
+      
     </div>
   );
 }
