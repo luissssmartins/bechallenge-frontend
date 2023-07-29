@@ -16,14 +16,15 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
           name: newName,
         });
         
-        onEditTask(tasks.id, newName)
+        onEditTask(task.id, newName)
 
       } catch (error) {
 
         console.error('Erro ao editar tarefa: ', error);
+
       }
     }
-  }
+  };
 
   const handleDelete = async (task) => {
 
@@ -35,7 +36,7 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
       try {
 
-        await axios.delete(`http://127.0.0.1:8000/api/tasks/${tasks.id}`);
+        await axios.delete(`http://127.0.0.1:8000/api/tasks/${task.id}`);
 
         onDeleteTask(task.id);
 
