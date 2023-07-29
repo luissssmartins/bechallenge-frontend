@@ -22,22 +22,24 @@ function App() {
     } catch (error) {
       console.error('Erro ao buscar tarefas:', error);
     }
-  }
 
-  const addTask = (taskName) => {
-    setTasks([...tasks, taskName]);
   };
 
-  const handleEdit = (index, newTask) => {
-    const updatedTasks = tasks.map((tasks) =>
-      tasks.id === index? { ...tasks, name: newTask } : tasks
+  const handleAddTask = (newTask) => {
+    setTasks([...tasks, newTask]);
+  }
+
+  const handleEditTask = (index, newName) => {
+    
+    const updatedTasks = tasks.map((task) =>
+      task.id === index? { ...task, name: newName } : task
     );
 
     setTasks(updatedTasks);
   };
 
-  const handleDelete = (index) => {
-    const updatedTasks = tasks.filter((tasks) => tasks.id !== index);
+  const handleDeleteTask = (index) => {
+    const updatedTasks = tasks.filter((task) => task.id !== index);
 
     setTasks(updatedTasks);
   };
@@ -46,8 +48,8 @@ function App() {
     <div>
       <h1>Controle de tarefas</h1>
 
-      <TaskForm addTask={addTask} />
-      <TaskList tasks={tasks} handleEdit={handleEdit} handleDelete={handleDelete} />
+      <TaskForm addTask={handleAddTask} />
+      <TaskList tasks={tasks} handleEdit={handleEditTask} handleDelete={handleDeleteTask} />
 
     </div>
   );
