@@ -52,7 +52,7 @@ function App() {
 
   const handleDeleteTask = (index) => {
     const updatedTasks = tasks.filter((task) => task.id !== index);
-
+    
     setTasks(updatedTasks);
   };
 
