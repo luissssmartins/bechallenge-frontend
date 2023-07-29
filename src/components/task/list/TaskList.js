@@ -2,29 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import './style/style.css';
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
-  const handleEdit = async (tasks) => {
+  const handleEdit = async (task) => {
 
-    const newTask = prompt('Editar nome da tarefa: ', tasks.name);
+    const newName = prompt('Editar nome da tarefa: ', task.name);
 
-    if (newTask !== null) {
+    if (newName !== null) {
 
       try {
 
-        await axios.put(`/api/tasks/${tasks.id}`, {
-          name: newTask
+        await axios.put(`http://127.0.0.1:8000/api/tasks/${task.id}`, {
+          name: newName,
         });
         
-        handleEdit(tasks.id, newTask)
+        onEditTask(tasks.id, newName)
 
       } catch (error) {
+
         console.error('Erro ao editar tarefa: ', error);
       }
     }
   }
 
-  const handleDelete = async (tasks) => {
+  const handleDelete = async (task) => {
 
     const confirmation = window.confirm(
       `Tem certeza de que deseja excluir esta tarefa?`
@@ -36,7 +37,7 @@ const TaskList = ({ tasks }) => {
 
         await axios.delete(`http://127.0.0.1:8000/api/tasks/${tasks.id}`);
 
-        handleDelete(tasks);
+        onDeleteTask(task.id);
 
 
       } catch (error) {
@@ -48,13 +49,19 @@ const TaskList = ({ tasks }) => {
 
   return (
     <ul>
-      {tasks.map((tasks) => (
-        <li key={tasks.id}>
-          {tasks}
-          <button className="editar" onClick={() => handleEdit(tasks)}>Editar</button>
-          <button className="excluir" onClick={() => handleDelete(tasks)}>Excluir</button>
+
+      {tasks.map((task) => (
+
+        <li key={task.id}>
+
+          {task.name}
+
+          <button className="editar" onClick={() => handleEdit(task)}>Editar</button>
+          <button className="excluir" onClick={() => handleDelete(task)}>Excluir</button>
         </li>
+        
       ))}
+
     </ul>
   );
 };
