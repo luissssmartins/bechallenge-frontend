@@ -29,13 +29,25 @@ function App() {
     setTasks([...tasks, newTask]);
   }
 
-  const handleEditTask = (index, newName) => {
-    
-    const updatedTasks = tasks.map((task) =>
-      task.id === index? { ...task, name: newName } : task
-    );
+  const handleEditTask = async (index, newName) => {
 
-    setTasks(updatedTasks);
+    try {
+      
+      await axios.put(`http://127.0.0.1:8000/api/tasks/${index}`, {
+        name: newName,
+      });
+
+      const updatedTasks = tasks.map((task) =>
+        task.id === index ? {...task, name: newName } : task
+      );
+      
+      setTasks(updatedTasks);
+    
+    } catch (error) {
+
+      console.error('Erro ao editar tarefa: ', error);
+    }
+
   };
 
   const handleDeleteTask = (index) => {
@@ -48,9 +60,18 @@ function App() {
     <div>
       <h1>Controle de tarefas</h1>
 
-      <TaskForm addTask={handleAddTask} />
-      <TaskList tasks={tasks} handleEdit={handleEditTask} handleDelete={handleDeleteTask} />
+      <TaskForm onAddTask={handleAddTask} />
 
+      {tasks.length > 0 ? (
+        <TaskList
+          tasks={tasks}
+          onEditTask={handleEditTask}
+          onDeleteTask={handleDeleteTask}
+        />
+      ) : (
+        <p>Não há tarefas cadastradas no momento.</p>
+      )}
+      
     </div>
   );
 }
