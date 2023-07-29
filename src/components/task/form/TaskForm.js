@@ -3,10 +3,11 @@ import axios from 'axios';
 
 import './style/style.css';
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     if (taskName.trim() === '') {
@@ -22,7 +23,7 @@ const TaskForm = ({ addTask }) => {
         status: 'para fazer',
       });
 
-      addTask(response.data)
+      onAddTask(response.data)
 
       setTaskName('')
 
