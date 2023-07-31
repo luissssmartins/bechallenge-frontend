@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import './style/style.css';
+//import './style/style.css';
 
 const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
@@ -30,7 +30,7 @@ const TaskForm = ({ onAddTask }) => {
     } catch (error) {
       console.error('Erro ao adicionar tarefa: ', error)
     }
-    
+
   };
 
   return (

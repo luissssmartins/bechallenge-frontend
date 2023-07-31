@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import './style/style.css';
+//import './style/style.css';
 
 const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
 
@@ -74,17 +74,17 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
           <div>
 
             {task.completed ? (
-              <button className="reabrir" onClick={() => handleComplete(task, false)}>Reabrir</button>
+              <button className="reopen" onClick={() => handleComplete(task, false)}>Reabrir</button>
             ) : (
-              <button className="finalizar" onClick={() => handleComplete(task, true)}>Concluir</button>
+              <button className="complete" onClick={() => handleComplete(task, true)}>Concluir</button>
             )}
 
           </div>
 
           {task.name}
 
-          <button className="editar" onClick={() => handleEdit(task)}>Editar</button>
-          <button className="excluir" onClick={() => handleDelete(task)}>Excluir</button>
+          <button className="edit" onClick={() => handleEdit(task)}>Editar</button>
+          <button className="delete" onClick={() => handleDelete(task)}>Excluir</button>
 
         </li>
         
