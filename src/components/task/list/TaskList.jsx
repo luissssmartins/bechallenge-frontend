@@ -68,21 +68,21 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
 
           <div>
             <strong>{task.name}</strong>
-
-            {task.description && (
-              <div>
-
-              <textarea
-                rows="3"
-                readOnly
-                value={task.description}
-                style={{ width: '100%', resize: 'none', backgroundColor: '#f9f9f9' }}
-                />
-                
-              </div>
-            )}
-            
           </div>
+
+          {task.description && (
+            
+            <div>
+
+            <textarea
+              rows="3"
+              readOnly
+              value={task.description}
+              style={{ width: '100%', resize: 'none', backgroundColor: '#f9f9f9' }}
+             />
+
+            </div>
+          )}
 
           <div>
 
