@@ -5,6 +5,7 @@ import './style/style.css';
 
 const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('')
 
   const handleSubmit = async (e) => {
 
@@ -19,8 +20,7 @@ const TaskForm = ({ onAddTask }) => {
 
       const response = await axios.post('http://127.0.0.1:8000/api/tasks/', {
         name: taskName,
-        description: '',
-        status: 'para fazer',
+        description: taskDescription,
       });
 
       onAddTask(response.data)
@@ -30,6 +30,7 @@ const TaskForm = ({ onAddTask }) => {
     } catch (error) {
       console.error('Erro ao adicionar tarefa: ', error)
     }
+    
   };
 
   return (
