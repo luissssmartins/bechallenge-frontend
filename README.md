@@ -16,7 +16,7 @@ O botão de editar, será responsável por alterar a tarefa do usuário, sendo a
 
 O botão excluir, será responsável por deletar e remover do banco de dados a tarefa escolhida pelo usuário, portanto, será enviado para o endpoint `/api/tasks/<task_id>/`, o ID da tarefa removida pelo usuário.
 
-## Compilando e executand o frontend
+## Compilando e executando o frontend
 
 Para compilar o front-end, de início, será necessário instalar os pacotes necessários, utilizando o comando abaixo:
 
