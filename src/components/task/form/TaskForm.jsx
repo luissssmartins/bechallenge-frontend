@@ -19,6 +19,7 @@ const TaskForm = ({ onAddTask }) => {
       const response = await axios.post('http://127.0.0.1:8000/api/tasks/', {
         name: taskName,
         description: taskDescription,
+        status: false
       });
 
       onAddTask(response.data)
