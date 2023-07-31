@@ -80,6 +80,10 @@ li p {
   margin: 8px 0;
 }
 
+button.add {
+  background-color: darkgreen;
+}
+
 button.edit {
   background-color: blue;
 }
