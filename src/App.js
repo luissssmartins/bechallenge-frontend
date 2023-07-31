@@ -53,15 +53,17 @@ function App() {
   const handleCompleteTask = async (task, isCompleted) => {
 
     const updatedTask = { ...tasks[task], completed: isCompleted };
+    const updatedTasks = [...tasks];
 
-    await axios.put(`http://127.0.0.1:8000/api/tasks/${tasks[task].id}`, updatedTask).then((response) => {
-      const updatedTasks = [...tasks];
+    await axios.put(`http://127.0.0.1:8000/api/tasks/${task.id}`, updatedTask).then((response) => {
 
-      updatedTasks[task] = response.data;
+      handleEditTask(task, response.data);
 
       setTasks(updatedTasks)
-      
-    })
+
+    }).catch((error) => {
+      console.error('Erro ao concluir a tarefa: ', error);
+    });
   }
 
   const handleDeleteTask = (index) => {
