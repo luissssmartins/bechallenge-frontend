@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-//import './style/style.css';
-
 const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('')
@@ -43,7 +41,7 @@ const TaskForm = ({ onAddTask }) => {
         placeholder="Nome da tarefa"
       />
 
-      <button className="enviar" type="submit">Adicionar</button>
+      <button className="add" type="submit">Adicionar</button>
 
     </form>
   );
