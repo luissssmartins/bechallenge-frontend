@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import './style/style.css';
 
-const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
+const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
 
   const handleEdit = async (task) => {
 
@@ -28,16 +28,13 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
   const handleComplete = async (task, isCompleted) => {
 
-    const updatedTask = { ...tasks[task], completed: isCompleted };
+    const confirmation = window.confirm(
+      'Tem certeza de que deseja concluir esta tarefa?'
+    );
 
-    await axios.put(`http://127.0.0.1:8000/api/tasks/${tasks[task].id}`, updatedTask).then((response) => {
-      const updatedTasks = [...tasks];
-
-      updatedTasks[task] = response.data;
-
-      setTasks(updatedTasks)
-      
-    })
+    if (confirmation) {
+      onCompleteTask(task, true);
+    }
   }
 
   const handleDelete = async (task) => {
