@@ -4,21 +4,22 @@ body {
   font-family: "Poppins";
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #f5f6fa;
 }
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #3498db;
 }
 
 form {
@@ -28,13 +29,23 @@ form {
 
 input {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
-  padding: 8px;
-  margin-left: 5px;
+  padding: 10px;
+  margin-left: 10px;
   cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #2980b9;
 }
 
 ul {
@@ -46,28 +57,21 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  border-bottom: 1px solid #eee;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ccc;
 }
 
 li:last-child {
   border-bottom: none;
 }
 
-/*
 li button {
-  background-color: #f44336;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  padding: 6px 12px;
+  padding: 8px;
   margin-left: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
 }
-
-li button.edit {
-  background-color: #2196f3;
-}
-*/
 
 @media (max-width: 600px) {
   .container {
@@ -91,9 +95,5 @@ li button.edit {
 
   li button {
     margin-top: 5px;
-  }
-
-  li button.edit {
-    margin-bottom: 5px;
   }
 }
