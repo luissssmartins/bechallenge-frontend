@@ -9,8 +9,8 @@ const TaskForm = ({ onAddTask }) => {
 
     e.preventDefault();
 
-    if (taskName.trim() === '') {
-      alert('Por favor, insira o nome da tarefa!')
+    if (taskName.trim() === '' || taskDescription.trim() === '') {
+      alert('Por favor, insira o nome e descrição da tarefa.')
       return;
     }
 
@@ -24,6 +24,7 @@ const TaskForm = ({ onAddTask }) => {
       onAddTask(response.data)
 
       setTaskName('')
+      setTaskDescription('')
 
     } catch (error) {
       console.error('Erro ao adicionar tarefa: ', error)
@@ -32,6 +33,7 @@ const TaskForm = ({ onAddTask }) => {
   };
 
   return (
+
     <form onSubmit={handleSubmit}>
 
       <input
@@ -39,6 +41,12 @@ const TaskForm = ({ onAddTask }) => {
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
         placeholder="Nome da tarefa"
+      />
+      
+      <textarea
+        value={taskDescription}
+        onChange={(e) => setTaskDescription(e.target.value)}
+        placeholder="Descrição da tarefa"
       />
 
       <button className="add" type="submit">Adicionar</button>
