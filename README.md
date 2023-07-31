@@ -4,7 +4,7 @@ Este desafio foi proposto pela beAnalytic, consiste em basicamente criar uma lis
 
 ## Frontend
 
-No front-end, foi utilizando React JS, uma popular framework de JavaScript.
+No front-end, foi utilizando React JS, uma framework popular de Java Script.
 
 O front-end é relativamente simples, ao iniciar o projeto, existirá um box para que a tarefa seja escrita e um botão logo ao lado para que a tarefa seja adicionada. Assim que iniciar, o sistema solicitará para o endpoint `/api/tasks/`, as tarefas registradas, caso não exista, nenhuma tarefa será adicionada a tela do usuário.
 
@@ -16,27 +16,7 @@ O botão de editar, será responsável por alterar a tarefa do usuário, sendo a
 
 O botão excluir, será responsável por deletar e remover do banco de dados a tarefa escolhida pelo usuário, portanto, será enviado para o endpoint `/api/tasks/<task_id>/`, o ID da tarefa removida pelo usuário.
 
-## Backend
-
-No back-end, a tecnologia utilizada será Django, uma framework, altamente escalável e robusta.
-
-Nos campos disponíveis, conterá as seguintes informações:
-
-* ID (Primary key)
-
-Responsável por definir o ID único de cada tarefa.
-
-* Description (Text ou Varchar)
-
-Responsável por armazenar o contéudo da tarefa por inteiro.
-
-* Status (Boolean)
-
-Responsável por definir se a tarefa está ativa ou não.
-
-OBS: Data de criação e alteração são adicionados automaticamente pelo Django.
-
-## Compilando o frontend
+## Compilando e executando o frontend
 
 Para compilar o front-end, de início, será necessário instalar os pacotes necessários, utilizando o comando abaixo:
 
@@ -47,3 +27,11 @@ Logo após, ter instalado os pacotes, basta rodar o seguinte comando para "build
 `npm run build`
 
 Agora, basta subir o projeto em uma instância utilizando Nginx ou PHP.
+
+Caso você queira rodar em seu computador, após ter instalado as dependências, basta utilizar o seguinte comando:
+
+`npm start`
+
+Uma página será disponibilizada automaticamente onde o deploy foi realizado, para seu navegador padrão, e logo após você podera acessar também no endereço:
+
+`http://localhost:3000/`
