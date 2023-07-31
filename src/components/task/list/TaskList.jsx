@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-//import './style/style.css';
 
-const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
+const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
   const handleEdit = async (task) => {
 
@@ -26,16 +25,35 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
     }
   };
 
-  const handleComplete = async (task, isCompleted) => {
+  const handleComplete = async (taskId, isCompleted) => {
 
-    const confirmation = window.confirm(
-      'Tem certeza de que deseja concluir esta tarefa?'
-    );
+    try {
 
-    if (confirmation) {
-      onCompleteTask(task, true);
+      const task = tasks.find((task) => task.id === taskId);
+
+      if (!task) {
+        console.error('Tarefa não encontrada ao tentar atualizar o status:', taskId);
+        return;
+      }
+
+      const updatedTask = { ...tasks[task], name: task.name, description: task.description, status: isCompleted };
+
+      console.log(updatedTask)
+
+      const response = await axios.put(`http://localhost:8000/api/tasks/${taskId}/`, updatedTask, {
+        
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+      });
+
+      handleEdit(task, response.data);
+
+    } catch (error) {
+      console.error('Erro ao atualizar o status da tarefa: ', error);
     }
-  }
+  };
 
   const handleDelete = async (task) => {
 
@@ -87,9 +105,9 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
           <div>
 
             {task.completed ? (
-              <button className="reopen" onClick={() => handleComplete(task, false)}>Reabrir</button>
+              <button className="reopen" onClick={() => handleComplete(task.id, false)}>Reabrir</button>
             ) : (
-              <button className="complete" onClick={() => handleComplete(task, true)}>Concluir</button>
+              <button className="complete" onClick={() => handleComplete(task.id, true)}>Concluir</button>
             )}
 
           </div>
