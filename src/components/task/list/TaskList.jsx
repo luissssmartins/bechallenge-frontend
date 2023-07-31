@@ -80,9 +80,7 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
             )}
 
           </div>
-
-          {task.name}
-
+          
           <button className="edit" onClick={() => handleEdit(task)}>Editar</button>
           <button className="delete" onClick={() => handleDelete(task)}>Excluir</button>
 
