@@ -26,6 +26,20 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
     }
   };
 
+  const handleComplete = async (task, isCompleted) => {
+
+    const updatedTask = { ...tasks[task], completed: isCompleted };
+
+    await axios.put(`http://127.0.0.1:8000/api/tasks/${tasks[task].id}`, updatedTask).then((response) => {
+      const updatedTasks = [...tasks];
+
+      updatedTasks[task] = response.data;
+
+      setTasks(updatedTasks)
+      
+    })
+  }
+
   const handleDelete = async (task) => {
 
     const confirmation = window.confirm(
@@ -55,10 +69,26 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
         <li key={task.id}>
 
+          <div>
+            <strong>{task.name}</strong>
+            {task.description && <p>{task.description}</p>}
+          </div>
+
+          <div>
+
+            {task.completed ? (
+              <button className="reabrir" onClick={() => handleComplete(task, false)}>Reabrir</button>
+            ) : (
+              <button className="finalizar" onClick={() => handleComplete(task, true)}>Concluir</button>
+            )}
+
+          </div>
+
           {task.name}
 
           <button className="editar" onClick={() => handleEdit(task)}>Editar</button>
           <button className="excluir" onClick={() => handleDelete(task)}>Excluir</button>
+
         </li>
         
       ))}
