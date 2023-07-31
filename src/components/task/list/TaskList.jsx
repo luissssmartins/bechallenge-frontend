@@ -68,7 +68,16 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
 
           <div>
             <strong>{task.name}</strong>
-            {task.description && <p>{task.description}</p>}
+
+            {task.description && (
+              <textarea
+                rows="3"
+                readOnly
+                value={task.description}
+                style={{ width: '100%', resize: 'none', backgroundColor: '#f9f9f9' }}
+                />
+            )}
+            
           </div>
 
           <div>
@@ -80,7 +89,7 @@ const TaskList = ({ tasks, onEditTask, onCompleteTask, onDeleteTask }) => {
             )}
 
           </div>
-          
+
           <button className="edit" onClick={() => handleEdit(task)}>Editar</button>
           <button className="delete" onClick={() => handleDelete(task)}>Excluir</button>
 
