@@ -13,3 +13,19 @@ button.editar {
     border: none;
     cursor: pointer;
 }
+
+button.reabrir {
+    margin-top: 10px;
+    background-color: yellow;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button.finalizar {
+    margin-top: 10px;
+    background-color: green;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
