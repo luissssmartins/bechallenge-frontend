@@ -50,6 +50,20 @@ function App() {
 
   };
 
+  const handleCompleteTask = async (task, isCompleted) => {
+
+    const updatedTask = { ...tasks[task], completed: isCompleted };
+
+    await axios.put(`http://127.0.0.1:8000/api/tasks/${tasks[task].id}`, updatedTask).then((response) => {
+      const updatedTasks = [...tasks];
+
+      updatedTasks[task] = response.data;
+
+      setTasks(updatedTasks)
+      
+    })
+  }
+
   const handleDeleteTask = (index) => {
     const updatedTasks = tasks.filter((task) => task.id !== index);
     
@@ -65,6 +79,7 @@ function App() {
       {tasks.length > 0 ? (
         <TaskList
           tasks={tasks}
+          onCompleteTask={handleCompleteTask}
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
         />
