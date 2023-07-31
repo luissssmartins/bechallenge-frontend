@@ -92,11 +92,11 @@ button.delete {
   background-color: red;
 }
 
-button.complete-btn {
+button.complete {
   background-color: green;
 }
 
-button.reopen-btn {
+button.reopen {
   background-color: yellow;
 }
 
