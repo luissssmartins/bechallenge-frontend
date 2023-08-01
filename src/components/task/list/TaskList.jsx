@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import './style/style.css';
 
-const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
+const TaskList = ({tasks, onEditTask, onDeleteTask }) => {
+  
+  const [localTasks, setLocalTasks] = useState(tasks)
 
   const handleEdit = async (task) => {
 
@@ -23,6 +24,32 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
         console.error('Erro ao editar tarefa: ', error);
 
       }
+    }
+  };
+
+  const handleComplete = async (taskId, isCompleted) => {
+
+    try {
+
+      const task = localTasks.find((task) => task.id === taskId);
+
+      if (!task) {
+        console.error('Tarefa não encontrada ao tentar atualizar o status:', taskId);
+        return;
+      }
+
+      const updatedTask = { ...localTasks[task], name: task.name, description: task.description, status: isCompleted };
+
+      const response = await axios.put(`http://localhost:8000/api/tasks/${taskId}`, updatedTask);
+
+      const updatedTasks = [...localTasks]
+
+      updatedTasks[task] = response.data
+
+      setLocalTasks(updatedTasks)
+
+    } catch (error) {
+      console.error('Erro ao atualizar o status da tarefa: ', error);
     }
   };
 
@@ -51,14 +78,41 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
   return (
     <ul>
 
-      {tasks.map((task) => (
+      {localTasks.map((task) => (
 
         <li key={task.id}>
 
-          {task.name}
+          <div>
+            <strong>{task.name}</strong>
+          </div>
 
-          <button className="editar" onClick={() => handleEdit(task)}>Editar</button>
-          <button className="excluir" onClick={() => handleDelete(task)}>Excluir</button>
+          {task.description && (
+
+            <div>
+              
+             <textarea
+               rows="3"
+               readOnly
+               value={task.description}
+               style={{ width: '100%', resize: 'none', backgroundColor: '#f9f9f9'}}
+             />
+
+            </div>
+          )}
+
+          <div>
+
+            {!task.completed ? (
+              <button className="complete" onClick={() => handleComplete(task.id, true)}>Concluir</button>
+            ) : (
+              <button className="reopen" onClick={() => handleComplete(task.id, false)}>Reabrir</button>
+            )}
+
+          </div>
+
+          <button className="edit" onClick={() => handleEdit(task)}>Editar</button>
+          <button className="delete" onClick={() => handleDelete(task)}>Excluir</button>
+
         </li>
         
       ))}
