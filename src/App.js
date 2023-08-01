@@ -236,12 +236,25 @@ function App() {
 
           </TaskItemStyled>
         ))}
+        
         <Modal open={editModalOpen} onClose={handleEditModalClose}>
-          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-            <Typography variant="h6">Editar Tarefa</Typography>
-            <form>
 
-              <TextField
+          <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+          }}>
+
+          <Typography variant="h6">Editar Tarefa</Typography>
+
+          <form>
+            <TextField
               label="Nome da Tarefa"
               value={editedTaskName}
               onChange={(e) => setEditedTaskName(e.target.value)}
@@ -259,20 +272,24 @@ function App() {
               margin="normal"
             />
 
-            <Button variant="contained" color="primary" onClick={handleEditModalSave}>
-              Salvar
-            </Button>
-            <Button variant="outlined" color="primary" onClick={handleEditModalClose}>
-              Cancelar
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+
+              <Button variant="contained" color="primary" onClick={handleEditModalSave}>
+                Salvar
+              </Button>
+              <Button variant="outlined" color="primary" onClick={handleEditModalClose} sx={{ ml: 2 }}>
+                Cancelar
+              </Button>
+            </Box>
+            
           </form>
-          
+
         </Box>
-      </Modal>
-      </TaskListStyled>
-      </PaperStyled>
-    </ContainerStyled>
-  </ThemeProvider>
+        </Modal>
+        </TaskListStyled>
+        </PaperStyled>
+        </ContainerStyled>
+        </ThemeProvider>
   );
 }
 
