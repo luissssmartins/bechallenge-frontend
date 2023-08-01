@@ -137,7 +137,27 @@ function App() {
     setEditModalOpen(false);
   }
 
-  const handleEditModalSave = () => {
+  const handleEditModalSave = async () => {
+
+    try {
+
+      await axios.put(`http://127.0.0.1:8000/api/tasks/${editTask.id}`, {
+        name: editedTaskName,
+        description: editedTaskDescription,
+        status: editTask.completed
+      });
+
+      setTasks((prevTasks) => 
+      prevTasks.map((task) =>
+      task.id === editTask.id
+      ? {...task, name: editedTaskName, description: editedTaskDescription }
+      : task ))
+
+    } catch (error) {
+
+      console.log('Erro ao atualizar tarefa: ', error);
+    }
+
     setEditModalOpen(false);
   }
 
