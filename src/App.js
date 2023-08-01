@@ -41,8 +41,8 @@ const TaskItemStyled = styled('li')({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  alignItems: 'stretch',
-  padding: theme.spacing(1),
+  alignItems: 'center',
+  padding: theme.spacing(2),
   border: '1px solid #ccc',
   borderRadius: '4px',
   marginBottom: theme.spacing(2),
@@ -161,17 +161,15 @@ function App() {
         <TaskListStyled>
       {tasks.map((task) => (
         <TaskItemStyled key={task.id}>
-
-          <div>
-            <Typography variant="body1">
-              <strong>{task.name}</strong>
+          <Typography variant="body1" align="center">
+            <strong>{task.name}</strong>
+          </Typography>
+          {task.description && (
+            <Typography variant="body2" align="center">
+              {task.description}
             </Typography>
-            {task.description && (
-              <Typography variant="body2">{task.description}</Typography>
-            )}
-          </div>
-
-          <div>
+          )}
+          <ButtonContainerStyled>
             {!task.completed ? (
               <Button
                 variant="contained"
@@ -196,19 +194,17 @@ function App() {
             >
               Editar
             </Button>
+            
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleDeleteTask(task.id)}
-            >
+              onClick={() => handleDeleteTask(task.id)}>
               Excluir
-            </Button>
-          </div>
-        </TaskItemStyled>
-
-      ))}
-
-        </TaskListStyled>
+              </Button>
+            </ButtonContainerStyled>
+          </TaskItemStyled>
+        ))}
+      </TaskListStyled>
       </PaperStyled>
     </ContainerStyled>
   </ThemeProvider>
