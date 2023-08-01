@@ -1,13 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Container, Typography, TextField, Button, Paper } from '@mui/material';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 
-import TaskForm from './components/task/form/TaskForm';
-import TaskList from './components/task/list/TaskList';
+import axios from 'axios';
 
 import './App.css';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#2196F3',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
+
+const ContainerStyled = styled(Container)({
+  marginTop: theme.spacing(4),
+});
+
+const PaperStyled = styled(Paper)({
+  padding: theme.spacing(3),
+});
+
+const FormStyled = styled('form')({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(2),
+});
+
+const TaskListStyled = styled('ul')({
+  listStyle: 'none',
+  padding: 0,
+  margin: theme.spacing(2, 0),
+});
+
+const TaskItemStyled = styled('li')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: theme.spacing(1),
+});
+
 function App() {
+
   const [tasks, setTasks] = useState([]);
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
 
   useEffect(() => {
     fetchTasks();
@@ -22,13 +63,33 @@ function App() {
     } catch (error) {
       console.error('Erro ao buscar tarefas:', error);
     }
-
   };
 
-  const handleAddTask = (newTask) => {
-    setTasks([...tasks, newTask]);
-  }
+  const handleAddTask = async (event) => {
+    event.preventDefault();
 
+    if (!taskName || !taskDescription) {
+      alert('Por favor, preencha o nome e a descrição da tarefa.');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/tasks/',
+
+        { name: taskName, description: taskDescription, completed: false }
+
+      );
+
+      setTasks([...tasks, response.data]);
+      setTaskName('');
+      setTaskDescription('');
+
+    } catch (error) {
+      console.error('Erro ao adicionar tarefa:', error);
+    }
+  };
+  
   const handleEditTask = async (index, newName) => {
 
     try {
@@ -57,22 +118,88 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Controle de tarefas</h1>
+    <ThemeProvider theme={theme}>
+    <ContainerStyled maxWidth='md'>
+      <PaperStyled>
 
-      <TaskForm onAddTask={handleAddTask} />
+        <Typography variant='h4' gutterBottom>
+          Controle de tarefas
+        </Typography>
 
-      {tasks.length > 0 ? (
-        <TaskList
-          tasks={tasks}
-          onEditTask={handleEditTask}
-          onDeleteTask={handleDeleteTask}
-        />
-      ) : (
-        <p>Não há tarefas cadastradas no momento.</p>
-      )}
-      
-    </div>
+        <FormStyled onSubmit={handleAddTask}>
+
+          <TextField
+          label='Nome da tarefa'
+          variant='outlined'
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          />
+
+          <TextField
+          label='Descrição da tarefa'
+          variant='outlined'
+          value={taskDescription}
+          onChange={(e) => setTaskDescription(e.target.value)}
+          />
+
+          <Button type='submit' variant='contained' color='primary'>
+            Adicionar
+          </Button>
+
+        </FormStyled>
+
+        <TaskListStyled>
+          {tasks.map((task) => (
+
+            <TaskItemStyled key={task.id}>
+
+              <div>
+
+                <Typography variant='body1'>
+                  <strong> {task.name} </strong>
+                </Typography>
+
+                {task.description && (
+                  <Typography variant='body2'>{task.description}</Typography>
+                )}
+
+              </div>
+              <div>
+                {!task.completed ? (
+                  <Button
+                  variant='contained'
+                  color='secondary'> 
+                  Concluir 
+                  </Button>
+
+                ) : (
+                  <Button
+                  variant='outlined'
+                  color='secondary'>
+                  Reabrir
+                  </Button>
+
+                )}
+
+                <Button
+                variant='outlined'
+                color='primary'>
+                Editar
+                </Button>
+
+                <Button
+                variant='contained'
+                color='primary'>
+                Excluir
+                </Button>
+        
+              </div>
+            </TaskItemStyled>
+          ))}
+        </TaskListStyled>
+      </PaperStyled>
+    </ContainerStyled>
+  </ThemeProvider>
   );
 }
 
