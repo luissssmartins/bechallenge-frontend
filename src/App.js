@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, TextField, Button, Paper } from '@mui/material';
+import { Container, Typography, TextField, Button, Paper, Modal, TextField, Box } from '@mui/material';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 
 import axios from 'axios';
@@ -38,6 +38,7 @@ const TaskListStyled = styled('ul')({
 });
 
 const TaskItemStyled = styled('li')({
+  cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -59,6 +60,11 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
+
+  const [editTask, setEditTask] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editedTaskName, setEditedTaskName] = useState('');
+  const [editedTaskDescription, setEditedTaskDescription] = useState('');
 
   useEffect(() => {
     fetchTasks();
@@ -118,26 +124,22 @@ function App() {
     }
   };
 
-  const handleEditTask = async (index, newName) => {
+  const handleEditTask = async (task) => {
 
-    try {
-      
-      await axios.put(`http://127.0.0.1:8000/api/tasks/${index}`, {
-        name: newName,
-      });
+    setEditTask(task);
+    setEditedTaskName(task.name);
+    setEditedTaskDescription(task.description);
+    setEditModalOpen(true);
 
-      const updatedTasks = tasks.map((task) =>
-        task.id === index ? {...task, name: newName } : task
-      );
-      
-      setTasks(updatedTasks);
-    
-    } catch (error) {
-
-      console.error('Erro ao editar tarefa: ', error);
-    }
-    
   };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+  }
+
+  const handleEditModalSave = () => {
+    setEditModalOpen(false);
+  }
 
   const handleDeleteTask = async (index) => {
     const updatedTasks = tasks.filter((task) => task.id !== index);
@@ -231,9 +233,42 @@ function App() {
               Excluir
               </Button>
             </ButtonContainerStyled>
-            
+
           </TaskItemStyled>
         ))}
+        <Modal open={editModalOpen} onClose={handleEditModalClose}>
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            <Typography variant="h6">Editar Tarefa</Typography>
+            <form>
+
+              <TextField
+              label="Nome da Tarefa"
+              value={editedTaskName}
+              onChange={(e) => setEditedTaskName(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+
+            <TextField
+              label="Descrição da Tarefa"
+              value={editedTaskDescription}
+              onChange={(e) => setEditedTaskDescription(e.target.value)}
+              multiline
+              rows={4}
+              fullWidth
+              margin="normal"
+            />
+
+            <Button variant="contained" color="primary" onClick={handleEditModalSave}>
+              Salvar
+            </Button>
+            <Button variant="outlined" color="primary" onClick={handleEditModalClose}>
+              Cancelar
+            </Button>
+          </form>
+          
+        </Box>
+      </Modal>
       </TaskListStyled>
       </PaperStyled>
     </ContainerStyled>
