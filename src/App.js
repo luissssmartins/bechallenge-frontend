@@ -236,7 +236,6 @@ function App() {
 
           </TaskItemStyled>
         ))}
-        
         <Modal open={editModalOpen} onClose={handleEditModalClose}>
 
           <Box
@@ -262,6 +261,8 @@ function App() {
               margin="normal"
             />
 
+            <Box sx={{ mb: 2 }} />
+
             <TextField
               label="Descrição da Tarefa"
               value={editedTaskDescription}
@@ -269,22 +270,20 @@ function App() {
               multiline
               rows={4}
               fullWidth
-              margin="normal"
-            />
+              margin="normal"/>
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
 
               <Button variant="contained" color="primary" onClick={handleEditModalSave}>
                 Salvar
               </Button>
-              <Button variant="outlined" color="primary" onClick={handleEditModalClose} sx={{ ml: 2 }}>
+              <Button variant="outlined" color="primary" onClick={handleEditModalClose}>
                 Cancelar
               </Button>
-            </Box>
-            
-          </form>
-
-        </Box>
+              </Box>
+              
+            </form>
+          </Box>
         </Modal>
         </TaskListStyled>
         </PaperStyled>
