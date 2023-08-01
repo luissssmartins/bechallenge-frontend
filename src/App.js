@@ -39,9 +39,19 @@ const TaskListStyled = styled('ul')({
 
 const TaskItemStyled = styled('li')({
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: theme.spacing(1),
+  alignItems: 'stretch',
+  padding: theme.spacing(1),
+  border: '1px solid #ccc',
+  borderRadius: '4px',
+  marginBottom: theme.spacing(2),
+});
+
+const ButtonContainerStyled = styled('div')({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: theme.spacing(1),
 });
 
 function App() {
@@ -89,7 +99,7 @@ function App() {
       console.error('Erro ao adicionar tarefa:', error);
     }
   };
-  
+
   const handleEditTask = async (index, newName) => {
 
     try {
@@ -149,53 +159,55 @@ function App() {
         </FormStyled>
 
         <TaskListStyled>
-          {tasks.map((task) => (
+      {tasks.map((task) => (
+        <TaskItemStyled key={task.id}>
 
-            <TaskItemStyled key={task.id}>
+          <div>
+            <Typography variant="body1">
+              <strong>{task.name}</strong>
+            </Typography>
+            {task.description && (
+              <Typography variant="body2">{task.description}</Typography>
+            )}
+          </div>
 
-              <div>
+          <div>
+            {!task.completed ? (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleTaskStatusChange(task.id, true)}
+              >
+                Concluir
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleTaskStatusChange(task.id, false)}
+              >
+                Reabrir
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => handleEditTask(task)}
+            >
+              Editar
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleDeleteTask(task.id)}
+            >
+              Excluir
+            </Button>
+          </div>
+        </TaskItemStyled>
 
-                <Typography variant='body1'>
-                  <strong> {task.name} </strong>
-                </Typography>
+      ))}
 
-                {task.description && (
-                  <Typography variant='body2'>{task.description}</Typography>
-                )}
-
-              </div>
-              <div>
-                {!task.completed ? (
-                  <Button
-                  variant='contained'
-                  color='secondary'> 
-                  Concluir 
-                  </Button>
-
-                ) : (
-                  <Button
-                  variant='outlined'
-                  color='secondary'>
-                  Reabrir
-                  </Button>
-
-                )}
-
-                <Button
-                variant='outlined'
-                color='primary'>
-                Editar
-                </Button>
-
-                <Button
-                variant='contained'
-                color='primary'>
-                Excluir
-                </Button>
-        
-              </div>
-            </TaskItemStyled>
-          ))}
         </TaskListStyled>
       </PaperStyled>
     </ContainerStyled>
