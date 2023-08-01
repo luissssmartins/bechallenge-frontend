@@ -67,19 +67,28 @@ function App() {
   const [editedTaskDescription, setEditedTaskDescription] = useState('');
 
   useEffect(() => {
+
+    const fetchTasks = async () => {
+
+      try {
+
+        const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
+
+        const fetchedTasks = response.data;
+
+        if (fetchedTasks && fetchedTasks.length > 0) {
+          setTasks(fetchedTasks)
+        }
+  
+      } catch (error) {
+        console.error('Erro ao buscar tarefas:', error);
+      }
+    };
+
     fetchTasks();
+
   }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
-
-      setTasks(response.data)
-
-    } catch (error) {
-      console.error('Erro ao buscar tarefas:', error);
-    }
-  };
 
   const handleAddTask = async (event) => {
     event.preventDefault();
@@ -90,12 +99,13 @@ function App() {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/tasks/',
 
-        { name: taskName, description: taskDescription, completed: false }
+      const response = await axios.post('http://localhost:8000/api/tasks/', { 
 
-      );
+        name: taskName, 
+        description: taskDescription, 
+        status: false 
+      });
 
       setTasks([...tasks, response.data]);
       setTaskName('');
@@ -110,16 +120,21 @@ function App() {
 
     try {
 
-      const updatedTasks = tasks.map((task) =>
+      const taskToUpdate = tasks.find((task) => task.id === taskId);
 
-        task.id === taskId ? { ...task, completed: isCompleted } : task
-      );
+      await axios.put(`http://localhost:8000/api/tasks/${taskId}`, {
+        name: taskToUpdate.name,
+        description: taskToUpdate.description,
+        status: isCompleted
+      });
 
-      setTasks(updatedTasks);
-
-      await axios.put(`http://localhost:8000/api/tasks/${taskId}`, { completed: isCompleted });
+      setTasks((prevTasks) => 
+      prevTasks.map((task) =>
+      task.id === taskId ? { ...task, status: !task.isCompleted }
+      : task ))
 
     } catch (error) {
+
       console.error('Erro ao atualizar o status da tarefa:', error);
     }
   };
@@ -220,7 +235,9 @@ function App() {
             </Typography>
           )}
           <ButtonContainerStyled>
-            {!task.completed ? (
+
+            {!task.status? (
+
               <Button
                 variant="contained"
                 color="secondary"
