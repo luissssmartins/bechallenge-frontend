@@ -268,7 +268,7 @@ function App() {
               value={editedTaskDescription}
               onChange={(e) => setEditedTaskDescription(e.target.value)}
               multiline
-              rows={4}
+              rows={1}
               fullWidth
               margin="normal"/>
 
