@@ -100,6 +100,24 @@ function App() {
     }
   };
 
+  const handleTaskStatusChange = async (taskId, isCompleted) => {
+
+    try {
+
+      const updatedTasks = tasks.map((task) =>
+
+        task.id === taskId ? { ...task, completed: isCompleted } : task
+      );
+
+      setTasks(updatedTasks);
+
+      await axios.put(`http://localhost:8000/api/tasks/${taskId}`, { completed: isCompleted });
+
+    } catch (error) {
+      console.error('Erro ao atualizar o status da tarefa:', error);
+    }
+  };
+
   const handleEditTask = async (index, newName) => {
 
     try {
@@ -121,15 +139,24 @@ function App() {
     
   };
 
-  const handleDeleteTask = (index) => {
+  const handleDeleteTask = async (index) => {
     const updatedTasks = tasks.filter((task) => task.id !== index);
-    
+  
     setTasks(updatedTasks);
+
+    try {
+
+      await axios.delete(`http://localhost:8000/api/tasks/${index}`)
+
+    } catch (error) {
+      console.log('Erro ao deletar tarefa: ', error);
+    }
   };
 
   return (
     <ThemeProvider theme={theme}>
     <ContainerStyled maxWidth='md'>
+
       <PaperStyled>
 
         <Typography variant='h4' gutterBottom>
@@ -159,6 +186,7 @@ function App() {
         </FormStyled>
 
         <TaskListStyled>
+
       {tasks.map((task) => (
         <TaskItemStyled key={task.id}>
           <Typography variant="body1" align="center">
@@ -187,6 +215,7 @@ function App() {
                 Reabrir
               </Button>
             )}
+
             <Button
               variant="outlined"
               color="primary"
@@ -194,7 +223,7 @@ function App() {
             >
               Editar
             </Button>
-            
+
             <Button
               variant="contained"
               color="primary"
@@ -202,6 +231,7 @@ function App() {
               Excluir
               </Button>
             </ButtonContainerStyled>
+            
           </TaskItemStyled>
         ))}
       </TaskListStyled>
