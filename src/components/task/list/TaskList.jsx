@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
+const TaskList = ({tasks, onEditTask, onDeleteTask }) => {
+  
+  const [localTasks, setLocalTasks] = useState(tasks)
 
   const handleEdit = async (task) => {
 
@@ -29,26 +31,22 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
     try {
 
-      const task = tasks.find((task) => task.id === taskId);
+      const task = localTasks.find((task) => task.id === taskId);
 
       if (!task) {
         console.error('Tarefa não encontrada ao tentar atualizar o status:', taskId);
         return;
       }
 
-      const updatedTask = { ...tasks[task], name: task.name, description: task.description, status: isCompleted };
+      const updatedTask = { ...localTasks[task], name: task.name, description: task.description, status: isCompleted };
 
-      console.log(updatedTask)
+      const response = await axios.put(`http://localhost:8000/api/tasks/${taskId}`, updatedTask);
 
-      const response = await axios.put(`http://localhost:8000/api/tasks/${taskId}/`, updatedTask, {
-        
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const updatedTasks = [...localTasks]
 
-      });
+      updatedTasks[task] = response.data
 
-      handleEdit(task, response.data);
+      setLocalTasks(updatedTasks)
 
     } catch (error) {
       console.error('Erro ao atualizar o status da tarefa: ', error);
@@ -80,7 +78,7 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
   return (
     <ul>
 
-      {tasks.map((task) => (
+      {localTasks.map((task) => (
 
         <li key={task.id}>
 
@@ -104,10 +102,10 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
 
           <div>
 
-            {task.completed ? (
-              <button className="reopen" onClick={() => handleComplete(task.id, false)}>Reabrir</button>
-            ) : (
+            {!task.completed ? (
               <button className="complete" onClick={() => handleComplete(task.id, true)}>Concluir</button>
+            ) : (
+              <button className="reopen" onClick={() => handleComplete(task.id, false)}>Reabrir</button>
             )}
 
           </div>

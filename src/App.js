@@ -47,7 +47,7 @@ function App() {
 
       console.error('Erro ao editar tarefa: ', error);
     }
-
+    
   };
 
   const handleDeleteTask = (index) => {
