@@ -100,7 +100,7 @@ function App() {
 
     try {
 
-      const response = await axios.post('http://localhost:8000/api/tasks/', { 
+      const response = await axios.post('http://127.0.0.1:8000/api/tasks/', { 
 
         name: taskName, 
         description: taskDescription, 
@@ -122,7 +122,7 @@ function App() {
 
       const taskToUpdate = tasks.find((task) => task.id === taskId);
 
-      await axios.put(`http://localhost:8000/api/tasks/${taskId}`, {
+      await axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}`, {
         name: taskToUpdate.name,
         description: taskToUpdate.description,
         status: isCompleted
@@ -183,7 +183,7 @@ function App() {
 
     try {
 
-      await axios.delete(`http://localhost:8000/api/tasks/${index}`)
+      await axios.delete(`http://127.0.0.1:8000/api/tasks/${index}`)
 
     } catch (error) {
       console.log('Erro ao deletar tarefa: ', error);
