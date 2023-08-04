@@ -14,13 +14,27 @@ Na tela do usuário, após houver uma ou mais tarefas cadastradas, os botões "e
 
 O botão de editar, será responsável por alterar a tarefa do usuário, sendo assim, será possível reescrever a tarefa designada. Após a alteração, será enviado para o endpoint `/api/tasks/<task_id>/`, contendo o ID da tarefa alterada o seu novo conteúdo.
 
-O botão excluir, será responsável por deletar e remover do banco de dados a tarefa escolhida pelo usuário, portanto, será enviado para o endpoint `/api/tasks/<task_id>/`, o ID da tarefa removida pelo usuário.
+O botão excluir, será responsável por deletar e remover do banco de dados a tarefa escolhida pelo usuário, portanto, será enviado para o endpoint `/api/tasks/<task_id>/`, contendo o ID da tarefa deletada por seu usuário.
+
+## Frontend (em funcionamento)
+
+* Tela principal com uma tarefa adicionada e não concluída
+
+![1](https://github.com/luissssmartins/bechallenge-frontend/blob/master/showcase/1.png)
+
+* Tela de editar tarefa
+
+![2](https://github.com/luissssmartins/bechallenge-frontend/blob/master/showcase/2.png)
+
+* Tela principal com uma tarefa adicionada e concluída
+
+![3](https://github.com/luissssmartins/bechallenge-frontend/blob/master/showcase/3.png)
 
 ## Compilando e executando o frontend
 
 Para compilar o front-end, de início, será necessário instalar os pacotes necessários, utilizando o comando abaixo:
 
-`npm install`
+`npm install` ou `npm install --force`
 
 Logo após, ter instalado os pacotes, basta rodar o seguinte comando para "buildar" o projeto:
 
@@ -35,3 +49,7 @@ Caso você queira rodar em seu computador, após ter instalado as dependências,
 Uma página será disponibilizada automaticamente onde o deploy foi realizado, para seu navegador padrão, e logo após você podera acessar também no endereço:
 
 `http://localhost:3000/`
+
+## Próximos passos
+
+Para dar um deploy completo e de forma correta, basta seguir o passo neste ![repositório](https://github.com/luissssmartins/bechallenge-utils), em sua preferência utilizando Docker como foi utilizado neste projeto.
