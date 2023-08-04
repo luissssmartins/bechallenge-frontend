@@ -52,4 +52,4 @@ Uma página será disponibilizada automaticamente onde o deploy foi realizado, p
 
 ## Próximos passos
 
-Para dar um deploy completo e de forma correta, basta seguir o passo neste ![repositório](https://github.com/luissssmartins/bechallenge-utils), em sua preferência utilizando Docker como foi utilizado neste projeto.
+Para dar um deploy completo e de forma correta, basta seguir o passo neste [repositório](https://github.com/luissssmartins/bechallenge-utils), em sua preferência utilizando Docker como foi utilizado neste projeto.
